@@ -11,6 +11,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.herd.h2o.app.Home"
+            android:screenOrientation="landscape"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,6 +25,36 @@
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="com.herd.h20.LISTSTORES" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.herd.h2o.app.AddStore"
+            android:screenOrientation="landscape"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="com.herd.h20.ADDSTORE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.herd.h2o.app.ListCustomers"
+            android:screenOrientation="landscape"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="com.herd.h20.LISTCUSTOMERS" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.herd.h2o.app.AddCustomer"
+            android:screenOrientation="landscape"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="com.herd.h20.ADDCUSTOMER" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

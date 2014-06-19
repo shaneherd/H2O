@@ -29,6 +29,15 @@
                 android:padding="5dp" >
 
                 <TextView
+                    android:id="@+id/valveID"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="2dip"
+                    android:paddingLeft="8dp"
+                    android:textColor="#888" >
+                </TextView>
+
+                <TextView
                     android:id="@+id/firstname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -42,6 +51,33 @@
 
                 <TextView
                     android:id="@+id/lastname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="2dip"
+                    android:paddingLeft="8dp"
+                    android:textColor="#888" >
+                </TextView>
+
+                <TextView
+                    android:id="@+id/serviceStartDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="2dip"
+                    android:paddingLeft="8dp"
+                    android:textColor="#888" >
+                </TextView>
+
+                <TextView
+                    android:id="@+id/litersPerDay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="2dip"
+                    android:paddingLeft="8dp"
+                    android:textColor="#888" >
+                </TextView>
+
+                <TextView
+                    android:id="@+id/pricePerLiter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="2dip"

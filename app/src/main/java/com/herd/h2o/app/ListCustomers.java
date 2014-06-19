@@ -2,6 +2,7 @@ package com.herd.h2o.app;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -26,13 +27,19 @@ public class ListCustomers extends ListActivity{
     private ProgressDialog pDialog;
 
     // php read stores script
+    //private static final String READ_CUSTOMERS_URL = "http://10.37.152.140:1337/h2o/customers.php";
     private static final String READ_CUSTOMERS_URL = "http://192.168.0.253:1337/h2o/customers.php"; //running from laptop
     //private static final String READ_STORES_URL = "http://www.h2o.com/h2o/comments.php";  //running from a real server
 
     // JSON IDS:
     private static final String TAG_POSTS = "posts";
+    private static final String TAG_VALVEID = "valveID";
     private static final String TAG_FIRSTNAME = "firstName";
     private static final String TAG_LASTNAME = "lastName";
+    private static final String TAG_SERVICESTARTDATE = "serviceStartDate";
+    private static final String TAG_LITERSPERDAY = "litersPerDay";
+    private static final String TAG_PRICEPERLITER = "pricePerLiter";
+
 
     // An array of all of our comments
     private JSONArray mCustomers = null;
@@ -53,8 +60,8 @@ public class ListCustomers extends ListActivity{
     }
 
     public void addCustomer(View v) {
-        //Intent i = new Intent(ListStores.this, AddStore.class);
-        //startActivity(i);
+        Intent i = new Intent(ListCustomers.this, AddCustomer.class);
+        startActivity(i);
     }
 
     /**
@@ -80,14 +87,22 @@ public class ListCustomers extends ListActivity{
                 JSONObject c = mCustomers.getJSONObject(i);
 
                 // gets the content of each tag
+                String valveID = c.getString(TAG_VALVEID);
                 String storeName = c.getString(TAG_FIRSTNAME);
                 String storeLocation = c.getString(TAG_LASTNAME);
+                String serviceStartDate = c.getString(TAG_SERVICESTARTDATE);
+                String litersPerDay = c.getString(TAG_LITERSPERDAY);
+                String pricePerLiter = c.getString(TAG_PRICEPERLITER);
 
                 // creating new HashMap
                 HashMap<String, String> map = new HashMap<String, String>();
 
+                map.put(TAG_VALVEID, valveID);
                 map.put(TAG_FIRSTNAME, storeName);
                 map.put(TAG_LASTNAME, storeLocation);
+                map.put(TAG_SERVICESTARTDATE, serviceStartDate);
+                map.put(TAG_LITERSPERDAY, litersPerDay);
+                map.put(TAG_PRICEPERLITER, pricePerLiter);
 
                 // adding HashList to ArrayList
                 mCustomersList.add(map);
@@ -108,8 +123,8 @@ public class ListCustomers extends ListActivity{
         //and place the appropriate info from the list to the
         //correct GUI id.  Order is important here.
         ListAdapter adapter = new SimpleAdapter(this, mCustomersList,
-                R.layout.single_customer, new String[] { TAG_FIRSTNAME, TAG_LASTNAME },
-                new int[] { R.id.firstname, R.id.lastname });
+                R.layout.single_customer, new String[] { TAG_VALVEID, TAG_FIRSTNAME, TAG_LASTNAME, TAG_SERVICESTARTDATE, TAG_LITERSPERDAY, TAG_PRICEPERLITER },
+                new int[] { R.id.valveID, R.id.firstname, R.id.lastname, R.id.serviceStartDate, R.id.litersPerDay, R.id.pricePerLiter });
         setListAdapter(adapter);
 
         // Optional: when the user clicks a list item we could do something

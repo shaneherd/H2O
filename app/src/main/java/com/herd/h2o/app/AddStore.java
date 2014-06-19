@@ -38,7 +38,7 @@ public class AddStore extends Activity implements OnClickListener{
 
     //php add a store script
     private static final String ADD_STORE_URL = "http://192.168.0.253:1337/h2o/addstore.php";
-
+    //private static final String ADD_STORE_URL = "http://10.37.152.140:1337/h2o/addstore.php";
     //ids
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
@@ -97,6 +97,7 @@ public class AddStore extends Activity implements OnClickListener{
                 success = json.getInt(TAG_SUCCESS);
                 if (success == 1) {
                     Log.d("Store Added!", json.toString());
+                    finish();
                     return json.getString(TAG_MESSAGE);
                 }else{
                     Log.d("Add Store Failure!", json.getString(TAG_MESSAGE));

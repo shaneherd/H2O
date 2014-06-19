@@ -32,8 +32,8 @@ public class Home extends ActionBarActivity {
         customers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                //Intent viewStores = new Intent("com.herd.h20.LISTSTORES");
-                //startActivity(viewStores);
+                Intent viewStores = new Intent(Home.this, ListCustomers.class);
+                startActivity(viewStores);
             }
         });
     }

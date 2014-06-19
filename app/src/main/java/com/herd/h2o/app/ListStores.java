@@ -27,6 +27,7 @@ public class ListStores extends ListActivity {
     private ProgressDialog pDialog;
 
     // php read stores script
+    //private static final String READ_STORES_URL = "http://10.37.152.140:1337/h2o/stores.php"; //running from laptop at school
     private static final String READ_STORES_URL = "http://192.168.0.253:1337/h2o/stores.php"; //running from laptop
     //private static final String READ_STORES_URL = "http://www.h2o.com/h2o/comments.php";  //running from a real server
 
