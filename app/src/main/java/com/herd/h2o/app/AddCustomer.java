@@ -34,9 +34,9 @@ public class AddCustomer extends Activity implements View.OnClickListener {
     JSONParser jsonParser = new JSONParser();
 
     //php add a store script
-    //private static final String ADD_CUSTOMER_URL = "http://10.37.152.140:1337/h2o/addcustomer.php"; //running from laptop at school
-    //private static final String ADD_CUSTOMER_URL = "http://192.168.0.253:1337/h2o/addcustomer.php"; //running from laptop at home
-    private static final String ADD_CUSTOMER_URL = "http://192.168.42.1/addcustomer.php"; //running on pi
+    private static final String ADD_CUSTOMER_URL = "http://10.37.155.167:1337/h2o_php/H2O_PHP/addcustomer.php"; //running from laptop at school
+    //private static final String ADD_CUSTOMER_URL = "http://192.168.0.253:1337/h2o_php/H2O_PHP/addcustomer.php"; //running from laptop at home
+    //private static final String ADD_CUSTOMER_URL = "http://192.168.42.1/addcustomer.php"; //running on pi
 
     //ids
     private static final String TAG_SUCCESS = "success";

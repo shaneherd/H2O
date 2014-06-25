@@ -27,9 +27,9 @@ public class ListStores extends ListActivity {
     private ProgressDialog pDialog;
 
     // php read stores script
-    //private static final String READ_STORES_URL = "http://10.37.152.140:1337/h2o/stores.php"; //running from laptop at school
-    //private static final String READ_STORES_URL = "http://192.168.0.253:1337/h2o/stores.php"; //running from laptop at home
-    private static final String READ_STORES_URL = "http://192.168.42.1/comments.php";  //running on pi
+    private static final String READ_STORES_URL = "http://10.37.155.167:1337/h2o_php/H2O_PHP/stores.php"; //running from laptop at school
+    //private static final String READ_STORES_URL = "http://192.168.0.253:1337/h2o_php/H2O_PHP/stores.php"; //running from laptop at home
+    //private static final String READ_STORES_URL = "http://192.168.42.1/comments.php";  //running on pi
 
     // JSON IDS:
     private static final String TAG_POSTS = "posts";
