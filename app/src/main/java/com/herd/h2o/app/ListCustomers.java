@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,15 +27,12 @@ public class ListCustomers extends ListActivity{
     // Progress Dialog
     private ProgressDialog pDialog;
 
-    // php read stores script
-    private static final String READ_CUSTOMERS_URL = "http://10.37.155.167:1337/h2o_php/H2O_PHP/customers.php"; //running from laptop at school
-    //private static final String READ_CUSTOMERS_URL = "http://192.168.0.253:1337/h2o_php/H2O_PHP/customers.php"; //running from laptop at home
-    //private static final String READ_CUSTOMERS_URL = "http://192.168.42.1/customers.php"; //running on pi
-
-    //private static final String READ_STORES_URL = "http://www.h2o.com/h2o/comments.php";  //running from a real server
+    // php read customers script
+    private static final String READ_CUSTOMERS_URL = "http://192.168.42.1/customers.php"; //running on pi
 
     // JSON IDS:
     private static final String TAG_POSTS = "posts";
+    private static final String TAG_CUSTOMERID = "id";
     private static final String TAG_VALVEID = "valveID";
     private static final String TAG_FIRSTNAME = "firstName";
     private static final String TAG_LASTNAME = "lastName";
@@ -89,9 +87,10 @@ public class ListCustomers extends ListActivity{
                 JSONObject c = mCustomers.getJSONObject(i);
 
                 // gets the content of each tag
+                String customerID = c.getString(TAG_CUSTOMERID);
                 String valveID = c.getString(TAG_VALVEID);
-                String storeName = c.getString(TAG_FIRSTNAME);
-                String storeLocation = c.getString(TAG_LASTNAME);
+                String firstName = c.getString(TAG_FIRSTNAME);
+                String lastName = c.getString(TAG_LASTNAME);
                 String serviceStartDate = c.getString(TAG_SERVICESTARTDATE);
                 String litersPerDay = c.getString(TAG_LITERSPERDAY);
                 String pricePerLiter = c.getString(TAG_PRICEPERLITER);
@@ -99,9 +98,10 @@ public class ListCustomers extends ListActivity{
                 // creating new HashMap
                 HashMap<String, String> map = new HashMap<String, String>();
 
+                map.put(TAG_CUSTOMERID, customerID);
                 map.put(TAG_VALVEID, valveID);
-                map.put(TAG_FIRSTNAME, storeName);
-                map.put(TAG_LASTNAME, storeLocation);
+                map.put(TAG_FIRSTNAME, firstName);
+                map.put(TAG_LASTNAME, lastName);
                 map.put(TAG_SERVICESTARTDATE, serviceStartDate);
                 map.put(TAG_LITERSPERDAY, litersPerDay);
                 map.put(TAG_PRICEPERLITER, pricePerLiter);
@@ -125,8 +125,8 @@ public class ListCustomers extends ListActivity{
         //and place the appropriate info from the list to the
         //correct GUI id.  Order is important here.
         ListAdapter adapter = new SimpleAdapter(this, mCustomersList,
-                R.layout.single_customer, new String[] { TAG_VALVEID, TAG_FIRSTNAME, TAG_LASTNAME, TAG_SERVICESTARTDATE, TAG_LITERSPERDAY, TAG_PRICEPERLITER },
-                new int[] { R.id.valveID, R.id.firstname, R.id.lastname, R.id.serviceStartDate, R.id.litersPerDay, R.id.pricePerLiter });
+                R.layout.single_customer, new String[] { TAG_VALVEID, TAG_FIRSTNAME, TAG_LASTNAME, TAG_SERVICESTARTDATE, TAG_LITERSPERDAY, TAG_PRICEPERLITER, TAG_CUSTOMERID },
+                new int[] { R.id.valveID, R.id.firstname, R.id.lastname, R.id.serviceStartDate, R.id.litersPerDay, R.id.pricePerLiter, R.id.customerID });
         setListAdapter(adapter);
 
         // Optional: when the user clicks a list item we could do something
@@ -136,6 +136,22 @@ public class ListCustomers extends ListActivity{
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 // This method is triggered if an item is clicked within our list
+                Intent editCustomer = new Intent(ListCustomers.this, EditCustomer.class);
+                TextView customerID = (TextView)view.findViewById(R.id.customerID);
+                TextView firstName = (TextView)view.findViewById(R.id.firstname);
+                TextView lastName = (TextView)view.findViewById(R.id.lastname);
+                TextView serviceStartDate = (TextView)view.findViewById(R.id.serviceStartDate);
+                TextView valveID = (TextView)view.findViewById(R.id.valveID);
+                TextView litersPerDay = (TextView)view.findViewById(R.id.litersPerDay);
+                TextView pricePerLiter = (TextView)view.findViewById(R.id.pricePerLiter);
+                editCustomer.putExtra("customerID", customerID.getText().toString());
+                editCustomer.putExtra("firstName", firstName.getText().toString());
+                editCustomer.putExtra("lastName", lastName.getText().toString());
+                editCustomer.putExtra("serviceStartDate", serviceStartDate.getText().toString());
+                editCustomer.putExtra("valveID", valveID.getText().toString());
+                editCustomer.putExtra("litersPerDay", litersPerDay.getText().toString());
+                editCustomer.putExtra("pricePerLiter", pricePerLiter.getText().toString());
+                startActivity(editCustomer);
             }
         });
     }

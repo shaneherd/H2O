@@ -1,29 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="#fff" >
 
-    <Button
-        android:layout_width="wrap_content"
+<LinearLayout
+    android:id="@+id/top_layover"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentTop="true"
+    android:background="@drawable/blue_gradient"
+    android:orientation="horizontal" >
+
+    <TextView
+        style="@style/BlackText"
         android:layout_height="wrap_content"
-        android:text="Stores"
-        android:id="@+id/btnStores"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="Home"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+
+</LinearLayout>
+
+<LinearLayout
+    android:id="@+id/bottom_layover"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentLeft="true"
+    android:background="@drawable/blue_gradient"
+    android:orientation="horizontal"
+    android:weightSum="2" >
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+    </LinearLayout>
+</LinearLayout>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Customers"
         android:id="@+id/btnCustomers"
-        android:layout_below="@+id/btnStores"
+        android:layout_below="@+id/top_layover"
         android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/btn"
+        android:text="Nodes"
+        android:id="@+id/btnNodes"
         android:layout_below="@+id/btnCustomers"
         android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

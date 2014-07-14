@@ -11,4 +11,10 @@
     <string name="add_store">Add Store</string>
     <string name="read_stores_title">Stores</string>
     <string name="passwords_not_same">Passwords don\'t match</string>
+
+    <string-array name="node_types">
+        <item>Freakduino</item>
+        <item>Node</item>
+        <item>Valve</item>
+    </string-array>
 </resources>

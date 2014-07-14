@@ -19,10 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Shane Herd on 6/19/2014.
+ * Created by Shane Herd on 7/14/2014.
  */
 
-public class AddCustomer extends Activity implements View.OnClickListener {
+public class EditCustomer extends Activity implements View.OnClickListener {
+    private String idString, valveIDString, firstNameString, lastNameString, serviceStartDateString, litersPerDayString, pricePerLiterString = "";
 
     private EditText valveID, firstName, lastName, serviceStartDate, litersPerDay, pricePerLiter;
     private Button mSubmit;
@@ -33,10 +34,8 @@ public class AddCustomer extends Activity implements View.OnClickListener {
     // JSON parser class
     JSONParser jsonParser = new JSONParser();
 
-    //php add a store script
-    //private static final String ADD_CUSTOMER_URL = "http://10.37.155.167:1337/h2o_php/H2O_PHP/addcustomer.php"; //running from laptop at school
-    //private static final String ADD_CUSTOMER_URL = "http://192.168.0.253:1337/h2o_php/H2O_PHP/addcustomer.php"; //running from laptop at home
-    private static final String ADD_CUSTOMER_URL = "http://192.168.42.1/addcustomer.php"; //running on pi
+    //php update customer script
+    private static final String UPDATE_CUSTOMER_URL = "http://192.168.42.1/updatecustomer.php"; //running on pi
 
     //ids
     private static final String TAG_SUCCESS = "success";
@@ -45,7 +44,18 @@ public class AddCustomer extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_customer);
+        setContentView(R.layout.edit_customer);
+
+        Bundle extras = getIntent().getExtras();  //this is the extra stuff that was passed from the previous activity
+        if (extras != null) {
+            idString = extras.getString("customerID");
+            firstNameString = extras.getString("firstName");
+            lastNameString = extras.getString("lastName");
+            valveIDString = extras.getString("valveID");
+            serviceStartDateString = extras.getString("serviceStartDate");
+            litersPerDayString = extras.getString("litersPerDay");
+            pricePerLiterString = extras.getString("pricePerLiter");
+        }
 
         valveID = (EditText)findViewById(R.id.etValveID);
         firstName = (EditText)findViewById(R.id.etFirstName);
@@ -53,6 +63,13 @@ public class AddCustomer extends Activity implements View.OnClickListener {
         serviceStartDate = (EditText)findViewById(R.id.etServiceStartDate);
         litersPerDay = (EditText)findViewById(R.id.etLitersPerDay);
         pricePerLiter = (EditText)findViewById(R.id.etPricePerLiter);
+
+        valveID.setText(valveIDString);
+        firstName.setText(firstNameString);
+        lastName.setText(lastNameString);
+        serviceStartDate.setText(serviceStartDateString);
+        litersPerDay.setText(litersPerDayString);
+        pricePerLiter.setText(pricePerLiterString);
 
         mSubmit = (Button)findViewById(R.id.submit);
         mSubmit.setOnClickListener(this);
@@ -67,8 +84,8 @@ public class AddCustomer extends Activity implements View.OnClickListener {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(AddCustomer.this);
-            pDialog.setMessage("Adding Customer...");
+            pDialog = new ProgressDialog(EditCustomer.this);
+            pDialog.setMessage("Editing Customer...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
@@ -88,30 +105,32 @@ public class AddCustomer extends Activity implements View.OnClickListener {
             try {
                 // Building Parameters
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("id", idString));
                 params.add(new BasicNameValuePair("valveID", valve_id));
                 params.add(new BasicNameValuePair("firstName", first_name));
                 params.add(new BasicNameValuePair("lastName", last_name));
                 params.add(new BasicNameValuePair("serviceStartDate", service_start_date));
                 params.add(new BasicNameValuePair("litersPerDay", liters_per_day));
                 params.add(new BasicNameValuePair("pricePerLiter", price_per_liter));
+                params.add(new BasicNameValuePair("oldValveID", valveIDString));
 
                 Log.d("request!", "starting");
 
                 //Posting user data to script
                 JSONObject json = jsonParser.makeHttpRequest(
-                        ADD_CUSTOMER_URL, "POST", params);
+                        UPDATE_CUSTOMER_URL, "POST", params);
 
                 // full json response
-                Log.d("Add Customer Attempt", json.toString());
+                Log.d("Edit Customer Attempt", json.toString());
 
                 // json success element
                 success = json.getInt(TAG_SUCCESS);
                 if (success == 1) {
-                    Log.d("Customer Added!", json.toString());
+                    Log.d("Customer Edited!", json.toString());
                     finish();
                     return json.getString(TAG_MESSAGE);
                 }else{
-                    Log.d("Add Customer Failure!", json.getString(TAG_MESSAGE));
+                    Log.d("Edit Customer Failure!", json.getString(TAG_MESSAGE));
                     return json.getString(TAG_MESSAGE);
 
                 }
@@ -126,8 +145,9 @@ public class AddCustomer extends Activity implements View.OnClickListener {
             // dismiss the dialog once product deleted
             pDialog.dismiss();
             if (file_url != null){
-                Toast.makeText(AddCustomer.this, file_url, Toast.LENGTH_LONG).show();
+                Toast.makeText(EditCustomer.this, file_url, Toast.LENGTH_LONG).show();
             }
         }
     }
 }
+

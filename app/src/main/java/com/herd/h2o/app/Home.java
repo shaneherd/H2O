@@ -19,20 +19,20 @@ public class Home extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
 
-        Button stores = (Button)findViewById(R.id.btnStores);
-        stores.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                Intent viewStores = new Intent(Home.this, ListStores.class);
-                startActivity(viewStores);
-            }
-        });
-
         Button customers = (Button)findViewById(R.id.btnCustomers);
         customers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 Intent viewStores = new Intent(Home.this, ListCustomers.class);
+                startActivity(viewStores);
+            }
+        });
+
+        Button nodes = (Button)findViewById(R.id.btnNodes);
+        nodes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                Intent viewStores = new Intent(Home.this, ListNodes.class);
                 startActivity(viewStores);
             }
         });

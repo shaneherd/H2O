@@ -20,21 +20,41 @@
         </activity>
 
         <activity
-            android:name="com.herd.h2o.app.ListStores"
+            android:name="com.herd.h2o.app.ListNodes"
             android:screenOrientation="portrait"
             android:label="@string/app_name">
             <intent-filter>
-                <action android:name="com.herd.h20.LISTSTORES" />
+                <action android:name="com.herd.h20.LISTNODES" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
         <activity
-            android:name="com.herd.h2o.app.AddStore"
+        android:name="com.herd.h2o.app.AddNode"
+        android:screenOrientation="portrait"
+        android:label="@string/app_name">
+        <intent-filter>
+            <action android:name="com.herd.h20.ADDNODE" />
+            <category android:name="android.intent.category.DEFAULT" />
+        </intent-filter>
+    </activity>
+
+        <activity
+        android:name="com.herd.h2o.app.EditNode"
+        android:screenOrientation="portrait"
+        android:label="@string/app_name">
+        <intent-filter>
+            <action android:name="com.herd.h20.EDITNODE" />
+            <category android:name="android.intent.category.DEFAULT" />
+        </intent-filter>
+    </activity>
+
+        <activity
+            android:name="com.herd.h2o.app.EditCustomer"
             android:screenOrientation="portrait"
             android:label="@string/app_name">
             <intent-filter>
-                <action android:name="com.herd.h20.ADDSTORE" />
+                <action android:name="com.herd.h20.EDITCUSTOMER" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

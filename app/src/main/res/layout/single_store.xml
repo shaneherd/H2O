@@ -18,14 +18,14 @@
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
             android:background="@drawable/post_background_style"
-            android:orientation="horizontal" >
+            android:orientation="vertical" >
 
             <LinearLayout
                 android:id="@+id/box"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:padding="5dp" >
 
                 <TextView
