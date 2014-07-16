@@ -1,29 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="#fff" >
+
+<LinearLayout
+    android:id="@+id/top_layover"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentTop="true"
+    android:background="@drawable/blue_gradient"
+    android:orientation="horizontal" >
 
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+        style="@style/BlackText"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="16dp"
+        android:layout_gravity="center"
         android:gravity="center"
-        android:text="Add Node"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textStyle="bold" />
+        android:text="Edit Node"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <Button
-        android:id="@+id/submit"
-        android:layout_width="wrap_content"
+
+</LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottom_layover"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:text="Save" />
+        android:background="@drawable/blue_gradient"
+        android:orientation="horizontal">
+
+
+
+        <Button
+            android:id="@+id/submit"
+            style="@style/WhiteText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:background="@drawable/black_button"
+            android:layout_weight="1"
+            android:text="Save" />
+
+        <Button
+            android:id="@+id/btnDelete"
+            style="@style/WhiteText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:background="@drawable/black_button"
+            android:layout_weight="1"
+            android:text="Delete" />
+
+    </LinearLayout>
+
+
+
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -31,7 +67,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Type:"
         android:id="@+id/textView"
-        android:layout_below="@+id/textView2"
+        android:layout_below="@+id/top_layover"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="25dp" />
@@ -63,9 +99,9 @@
         android:ems="10"
         android:id="@+id/etNodeAddress"
         android:layout_alignBottom="@+id/textView4"
-        android:layout_toRightOf="@+id/textView2"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/textView4" />
 
     <Spinner
         android:layout_width="wrap_content"

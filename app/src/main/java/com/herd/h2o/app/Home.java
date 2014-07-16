@@ -32,8 +32,17 @@ public class Home extends ActionBarActivity {
         nodes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                Intent viewStores = new Intent(Home.this, ListNodes.class);
-                startActivity(viewStores);
+                Intent viewNodes = new Intent(Home.this, ListNodes.class);
+                startActivity(viewNodes);
+            }
+        });
+
+        Button runProgram = (Button)findViewById(R.id.btnRunProgram);
+        runProgram.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                Intent run = new Intent(Home.this, RunProgram.class);
+                startActivity(run);
             }
         });
     }

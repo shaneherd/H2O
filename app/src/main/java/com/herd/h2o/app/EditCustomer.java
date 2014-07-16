@@ -1,7 +1,9 @@
 package com.herd.h2o.app;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,7 +24,7 @@ import java.util.List;
  * Created by Shane Herd on 7/14/2014.
  */
 
-public class EditCustomer extends Activity implements View.OnClickListener {
+public class EditCustomer extends Activity {
     private String idString, valveIDString, firstNameString, lastNameString, serviceStartDateString, litersPerDayString, pricePerLiterString = "";
 
     private EditText valveID, firstName, lastName, serviceStartDate, litersPerDay, pricePerLiter;
@@ -36,6 +38,7 @@ public class EditCustomer extends Activity implements View.OnClickListener {
 
     //php update customer script
     private static final String UPDATE_CUSTOMER_URL = "http://192.168.42.1/updatecustomer.php"; //running on pi
+    private static final String DELETE_CUSTOMER_URL = "http://192.168.42.1/deletecustomer.php"; //running on pi
 
     //ids
     private static final String TAG_SUCCESS = "success";
@@ -72,15 +75,48 @@ public class EditCustomer extends Activity implements View.OnClickListener {
         pricePerLiter.setText(pricePerLiterString);
 
         mSubmit = (Button)findViewById(R.id.submit);
-        mSubmit.setOnClickListener(this);
+        mSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                new EditTheCustomer().execute();
+            }
+        });
+
+        //Delete Feature
+        final AlertDialog.Builder deleteDialog = new AlertDialog.Builder(this)
+                .setTitle("Delete")
+                .setMessage("Are you sure you want to delete this customer?\nThis action can not be undone.")
+                .setPositiveButton("Confirm", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        new DeleteCustomer().execute();//continue with the delete
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        // do nothing
+                    }
+                });
+
+        Button btnDelete = (Button)findViewById(R.id.btnDelete);
+        btnDelete.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                //prompt the user to confirm cancellation
+                //warn that all data entered will be lost
+                deleteDialog.show(); //prompt the user to confirm deletion
+            }
+        });
     }
 
-    @Override
-    public void onClick(View v) {
-        new AddNewCustomer().execute();
-    }
-
-    class AddNewCustomer extends AsyncTask<String, String, String> {
+    class EditTheCustomer extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -131,6 +167,64 @@ public class EditCustomer extends Activity implements View.OnClickListener {
                     return json.getString(TAG_MESSAGE);
                 }else{
                     Log.d("Edit Customer Failure!", json.getString(TAG_MESSAGE));
+                    return json.getString(TAG_MESSAGE);
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        protected void onPostExecute(String file_url) {
+            // dismiss the dialog once product deleted
+            pDialog.dismiss();
+            if (file_url != null){
+                Toast.makeText(EditCustomer.this, file_url, Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    class DeleteCustomer extends AsyncTask<String, String, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(EditCustomer.this);
+            pDialog.setMessage("Deleting Customer...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... args) {
+            // Check for success tag
+            int success;
+
+            try {
+                // Building Parameters
+                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("id", idString));
+                params.add(new BasicNameValuePair("valveID", valveIDString));
+
+                Log.d("request!", "starting");
+
+                //Posting user data to script
+                JSONObject json = jsonParser.makeHttpRequest(
+                        DELETE_CUSTOMER_URL, "POST", params);
+
+                // full json response
+                Log.d("Delete Customer Attempt", json.toString());
+
+                // json success element
+                success = json.getInt(TAG_SUCCESS);
+                if (success == 1) {
+                    Log.d("Customer Deleted!", json.toString());
+                    finish();
+                    return json.getString(TAG_MESSAGE);
+                }else{
+                    Log.d("Delete Customer Failure!", json.getString(TAG_MESSAGE));
                     return json.getString(TAG_MESSAGE);
 
                 }

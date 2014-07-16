@@ -5,11 +5,14 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -26,9 +29,10 @@ import java.util.HashMap;
 public class ListNodes extends ListActivity {
     // Progress Dialog
     private ProgressDialog pDialog;
+    int check = 0;
 
     // php read nodes script
-    private static final String READ_NODES_URL = "http://192.168.42.1/nodes.php"; //running on pi
+    private static String READ_NODES_URL = "http://192.168.42.1/nodes.php"; //running on pi
 
     // JSON IDS:
     private static final String TAG_POSTS = "posts";
@@ -48,13 +52,49 @@ public class ListNodes extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.read_nodes);
+
+        Spinner nodeTypes = (Spinner)findViewById(R.id.sNodeType);
+
+        //set up spinners
+        //node type spinner (uses string array from strings.xml)
+        //possible types are: freakduino, node, valve
+        final ArrayAdapter<CharSequence> nodeTypeAdapter = ArrayAdapter.createFromResource(this,
+                R.array.node_types, android.R.layout.simple_spinner_item);
+        nodeTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        nodeTypes.setAdapter(nodeTypeAdapter);
+
+        nodeTypes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                if (position == 0) { //freakduino
+                    READ_NODES_URL = "http://192.168.42.1/nodes_freakduinos.php";
+                }
+                else if (position == 1) { //node
+                    READ_NODES_URL = "http://192.168.42.1/nodes_nodes.php";
+                }
+                else if (position == 2) { //valve
+                    READ_NODES_URL = "http://192.168.42.1/nodes_valves.php";
+                }
+
+                new LoadNodes().execute();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
+        });
+
+        nodeTypes.setSelection(2);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         // loading the stores via AsyncTask
-        new LoadNodes().execute();
+        check = check + 1;
+        if (check > 1) {
+            new LoadNodes().execute();
+        }
     }
 
     public void addNode(View v) {
